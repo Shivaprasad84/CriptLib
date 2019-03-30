@@ -127,15 +127,15 @@ std::string Crypto::caesar_encrypt(std::string msg, int key)
     {
         if (is_upper(msg[i]))
         {
-            enc += c_alpha[(((int)msg[i] - 65) + 4) % 26];
+            enc += c_alpha[(((int)msg[i] - 65) + key) % 26];
         }
         else if (is_lower(msg[i]))
         {
-            enc += l_alpha[(((int)msg[i] - 97) + 4) % 26];
+            enc += l_alpha[(((int)msg[i] - 97) + key) % 26];
         }
         else if (is_num(msg[i]))
         {
-            enc += nums[(((int)msg[i] - 48) + 4) % 10];
+            enc += nums[(((int)msg[i] - 48) + key) % 10];
         }
         else
         {
@@ -153,23 +153,23 @@ std::string Crypto::caesar_decrypt(std::string enc, int key)
     {
         if (is_upper(enc[i]))
         {
-            temp = (int)enc[i] - 65 - 4;
-            if (temp < 0)
+            temp = (int)enc[i] - 65 - key;
+            while(temp < 0)
                 temp += 26;
             dec += c_alpha[temp % 26];
         }
         else if (is_lower(enc[i]))
         {
-            temp = (int)enc[i] - 97 - 4;
-            if (temp < 0)
+            temp = (int)enc[i] - 97 - key;
+            while(temp < 0)
                 temp += 26;
             dec += l_alpha[temp % 26];
         }
         else if (is_num(enc[i]))
         {
-            temp = (int)enc[i] - 48 - 4;
-            if (temp < 0)
-                temp += 26;
+            temp = (int)enc[i] - 48 - key;
+            while(temp < 0)
+                temp += 10;
             dec += nums[temp % 10];
         }
         else
@@ -243,12 +243,16 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
             if (is_upper(k))
             { 
                 temp = (int)e - 65 - ((int)k - 65);
-                dec += c_alpha[(temp > 0 ? temp : temp + 26) % 26];
+                while(temp < 0)
+                    temp += 26;
+                dec += c_alpha[temp % 26];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 65 - ((int)k - 97);
-                dec += c_alpha[(temp > 0 ? temp : temp + 26) % 26];
+                while(temp < 0)
+                    temp += 26;
+                dec += c_alpha[temp % 26];
             }
         }
         else if (is_lower(e))
@@ -256,12 +260,16 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
             if (is_upper(k))
             {
                 temp = (int)e - 97 - ((int)k - 65);
-                dec += l_alpha[(temp > 0 ? temp : temp + 26) % 26];
+                while(temp < 0)
+                    temp += 26;
+                dec += l_alpha[temp % 26];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 97 - ((int)k - 97);
-                dec += l_alpha[(temp > 0 ? temp : temp + 26) % 26];
+                while(temp < 0)
+                    temp += 26;
+                dec += l_alpha[temp % 26];
             }
         }
         else if (is_num(e))
@@ -269,12 +277,16 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
             if (is_upper(k))
             {
                 temp = (int)e - 48 - ((int)k - 65);
-                dec += nums[(temp > 0 ? temp : temp + 10) % 10];
+                while(temp < 0)
+                    temp += 10;
+                dec += nums[temp % 10];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 48 - ((int)k - 97);
-                dec += nums[(temp > 0 ? temp : temp + 10) % 10];
+                while(temp < 0)
+                    temp += 10;
+                dec += nums[temp % 10];
             }
         }
         else
