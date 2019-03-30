@@ -8,6 +8,9 @@
 class Crypto
 {
 private:
+  std::string c_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  std::string l_alpha = "abcdefghijklmnopqrstuvwxyz";
+  std::string nums = "0123456789";
   const unsigned int gcd(unsigned int a, unsigned int b);
 
   const unsigned int extEuclid(unsigned int x, unsigned int y, int *d, int *k);
@@ -26,10 +29,6 @@ public:
 
   std::vector<unsigned int> read_rsa_encryption_file(const std::string &fname);
 
-  std::string caesar_encrypt(std::string msg, int key);
-
-  std::string caesar_decrypt(std::string enc, int key);
-
   std::string vigenere_encrypt(std::string msg, std::string key);
 
   std::string vigenere_decrypt(std::string enc, std::string key);
@@ -37,6 +36,19 @@ public:
   void write_to_file(const std::string &fname, std::string &data);
 
   std::string read_from_file(const std::string &fname);
+
+
+  bool is_lower_alpha(char x);
+
+  bool is_uper_alpha(char x);
+
+  bool is_num(char x);
+
+  std::string caesar_encrypt(std::string msg, int key);
+
+  std::string caesar_decrypt(std::string enc, int key);
+
+
 };
 
 #endif
