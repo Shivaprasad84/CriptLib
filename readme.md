@@ -1,2 +1,2 @@
-<h1>Cryptography Library</h1>
-<p style="color: darkgrey;">Collection of various monoalphabetic and polyalphabetic substitution ciphers along with public key encryptiom (RSA) algorithm implemented in c++</p>
+<h1 class="font-family: verdana">Cryptography Library</h1>
+<p style="color: darkgrey;">Collection of various monoalphabetic and polyalphabetic substitution ciphers along with public key encryption (RSA) algorithm implemented in c++.</p>
