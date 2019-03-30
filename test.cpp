@@ -26,25 +26,19 @@ int main()
     // string dec_msg = c.rsa_decrypt(v, -8749, 59989);
     // c.write_to_file("decrypt.txt", dec_msg);
 
-    string x = c.read_from_file("decrypt.txt");
-    string y = c.caesar_decrypt(x, 6);
+    // string x = c.read_from_file("decrypt.txt");
+    // string y = c.caesar_decrypt(x, 6);
 
-    c.write_to_file("decrypt1.txt", y);
+    // c.write_to_file("decrypt1.txt", y);
 
+    string msg, key;
+    cout << "Enter a message: ";
+    getline(cin, msg);
+    cout << "Enter key: ";
+    cin >> key;
+    string enc_msg = c.vigenere_encrypt(msg, key);
+    string dec_msg = c.vigenere_decrypt(enc_msg, key);
 
-
-
-    // string msg;
-    // int key;
-    // cout << "Enter a message: ";
-    // getline(cin, msg);
-    // cout << "Enter a key: ";
-    // cin >> key;
-    // string enc_msg = c.caesar_encrypt(msg, key);
-
-    // cout << "Encrypted message: " << enc_msg << endl;
-
-    // string dec_msg = c.caesar_decrypt(enc_msg, key);
-
-    // cout << "Decrypted message: " << dec_msg << endl;
+    cout << "Encrypted: " << enc_msg << endl;
+    cout << "Decrypted: " << dec_msg << endl;
 }

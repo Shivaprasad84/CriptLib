@@ -38,9 +38,9 @@ public:
   std::string read_from_file(const std::string &fname);
 
 
-  bool is_lower_alpha(char x);
+  bool is_lower(char x);
 
-  bool is_uper_alpha(char x);
+  bool is_upper(char x);
 
   bool is_num(char x);
 

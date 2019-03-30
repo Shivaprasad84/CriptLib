@@ -98,15 +98,15 @@ std::string Crypto::rsa_decrypt(std::vector<uint> crypt_arr, int privKey, int re
     return dec_msg;
 }
 
-//******************************************************* Caesar Cipher ************************************************************//
+//****************************************** Utilities ***************************************************************************//
 
-bool Crypto::is_lower_alpha(char x)
+bool Crypto::is_lower(char x)
 {
     int temp = (int)x;
     return temp >= 97 && temp <= 122;
 }
 
-bool Crypto::is_uper_alpha(char x)
+bool Crypto::is_upper(char x)
 {
     int temp = (int)x;
     return temp >= 65 && temp <= 90;
@@ -118,16 +118,18 @@ bool Crypto::is_num(char x)
     return temp >= '1' && temp <= '9';
 }
 
+//******************************************************* Caesar Cipher ************************************************************//
+
 std::string Crypto::caesar_encrypt(std::string msg, int key)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
     {
-        if (is_uper_alpha(msg[i]))
+        if (is_upper(msg[i]))
         {
             enc += c_alpha[(((int)msg[i] - 65) + 4) % 26];
         }
-        else if (is_lower_alpha(msg[i]))
+        else if (is_lower(msg[i]))
         {
             enc += l_alpha[(((int)msg[i] - 97) + 4) % 26];
         }
@@ -149,14 +151,14 @@ std::string Crypto::caesar_decrypt(std::string enc, int key)
     int temp;
     for (int i = 0; i < enc.size(); i++)
     {
-        if (is_uper_alpha(enc[i]))
+        if (is_upper(enc[i]))
         {
             temp = (int)enc[i] - 65 - 4;
             if (temp < 0)
                 temp += 26;
             dec += c_alpha[temp % 26];
         }
-        else if (is_lower_alpha(enc[i]))
+        else if (is_lower(enc[i]))
         {
             temp = (int)enc[i] - 97 - 4;
             if (temp < 0)
@@ -182,25 +184,107 @@ std::string Crypto::caesar_decrypt(std::string enc, int key)
 
 std::string Crypto::vigenere_encrypt(std::string msg, std::string key)
 {
-    std::string encrypt = "";
+    std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
     {
-        encrypt += (char)((int)msg[i] + (int)key[i % key.size()]);
+        char m = msg[i];
+        char k = key[i % key.size()];
+        if (is_upper(m))
+        {
+            if (is_upper(k))
+            {
+                enc += c_alpha[((int)m - 65 + (int)k - 65) % 26];
+            }
+            else if (is_lower(k))
+            {
+                enc += c_alpha[((int)m - 65 + (int)k - 97) % 26];
+            }
+        }
+        else if (is_lower(m))
+        {
+            if (is_upper(k))
+            {
+                enc += l_alpha[((int)m - 97 + (int)k - 65) % 26];
+            }
+            else if (is_lower(k))
+            {
+                enc += l_alpha[((int)m - 97 + (int)k - 97) % 26];
+            }
+        }
+        else if (is_num(m))
+        {
+            if (is_upper(k))
+            {
+                enc += nums[((int)m - 48 + (int)k - 65) % 10];
+            }
+            else if (is_lower(k))
+            {
+                enc += nums[((int)m - 48 + (int)k - 97) % 10];
+            }
+        }
+        else
+        {
+            enc += msg[i];
+        }
     }
-    return encrypt;
+    return enc;
 }
 
 std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
 {
-    std::string decrypt = "";
+    std::string dec = "";
+    int temp;
     for (int i = 0; i < enc.size(); i++)
     {
-        decrypt += (char)((int)enc[i] - (int)key[i % key.size()]);
+        char e = enc[i];
+        char k = key[i % key.size()];
+        if (is_upper(e))
+        {
+            if (is_upper(k))
+            { 
+                temp = (int)e - 65 - ((int)k - 65);
+                dec += c_alpha[(temp > 0 ? temp : temp + 26) % 26];
+            }
+            else if (is_lower(k))
+            {
+                temp = (int)e - 65 - ((int)k - 97);
+                dec += c_alpha[(temp > 0 ? temp : temp + 26) % 26];
+            }
+        }
+        else if (is_lower(e))
+        {
+            if (is_upper(k))
+            {
+                temp = (int)e - 97 - ((int)k - 65);
+                dec += l_alpha[(temp > 0 ? temp : temp + 26) % 26];
+            }
+            else if (is_lower(k))
+            {
+                temp = (int)e - 97 - ((int)k - 97);
+                dec += l_alpha[(temp > 0 ? temp : temp + 26) % 26];
+            }
+        }
+        else if (is_num(e))
+        {
+            if (is_upper(k))
+            {
+                temp = (int)e - 48 - ((int)k - 65);
+                dec += nums[(temp > 0 ? temp : temp + 10) % 10];
+            }
+            else if (is_lower(k))
+            {
+                temp = (int)e - 48 - ((int)k - 97);
+                dec += nums[(temp > 0 ? temp : temp + 10) % 10];
+            }
+        }
+        else
+        {
+            dec += enc[i];
+        }
     }
-    return decrypt;
+    return dec;
 }
 
-//***********************************************************************************************************************************//
 // ************************************************* File I/O **********************************************************************//
 
 void Crypto::write_to_file(const std::string &fname, std::string &data)
