@@ -118,6 +118,32 @@ bool Crypto::is_num(char x)
     return temp >= '1' && temp <= '9';
 }
 
+std::string Crypto::to_hex(const std::string& msg)
+{
+    int bias = 12;
+    std::stringstream res;
+    for(int i = 0; i < msg.size(); i++)
+    {
+        res << std::hex << std::setfill('0') << std::setw(2) << ((int)msg[i] + 12);
+    }
+    std::string hex;
+    res >> hex;
+    return hex;
+}
+
+std::string Crypto::to_unicode(const std::string& msg)
+{
+    int bias = 12;
+    std::string unicode; 
+    for(int i = 0; i < msg.size() - 1; i += 2)
+    {
+        std::string op = msg.substr(i, 2);
+        int decimal = std::stoi(op, 0, 16);
+        unicode += (char)(decimal - bias);
+    }
+    return unicode;
+}
+
 //******************************************************* Caesar Cipher ************************************************************//
 
 std::string Crypto::caesar_encrypt(std::string msg, int key)

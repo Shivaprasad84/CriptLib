@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include <fstream>
 #include <ctime>
 
@@ -42,6 +44,10 @@ public:
   std::string atbash_encrypt(std::string msg);
 
   std::string atbash_decrypt(std::string enc);
+
+  std::string to_hex(const std::string &msg);
+
+  std::string to_unicode(const std::string &msg);
 
   void write_to_file(const std::string &fname, std::string &data);
 
