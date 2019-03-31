@@ -154,21 +154,21 @@ std::string Crypto::caesar_decrypt(std::string enc, int key)
         if (is_upper(enc[i]))
         {
             temp = (int)enc[i] - 65 - key;
-            while(temp < 0)
+            while (temp < 0)
                 temp += 26;
             dec += c_alpha[temp % 26];
         }
         else if (is_lower(enc[i]))
         {
             temp = (int)enc[i] - 97 - key;
-            while(temp < 0)
+            while (temp < 0)
                 temp += 26;
             dec += l_alpha[temp % 26];
         }
         else if (is_num(enc[i]))
         {
             temp = (int)enc[i] - 48 - key;
-            while(temp < 0)
+            while (temp < 0)
                 temp += 10;
             dec += nums[temp % 10];
         }
@@ -241,16 +241,16 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
         if (is_upper(e))
         {
             if (is_upper(k))
-            { 
+            {
                 temp = (int)e - 65 - ((int)k - 65);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 26;
                 dec += c_alpha[temp % 26];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 65 - ((int)k - 97);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 26;
                 dec += c_alpha[temp % 26];
             }
@@ -260,14 +260,14 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
             if (is_upper(k))
             {
                 temp = (int)e - 97 - ((int)k - 65);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 26;
                 dec += l_alpha[temp % 26];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 97 - ((int)k - 97);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 26;
                 dec += l_alpha[temp % 26];
             }
@@ -277,17 +277,69 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
             if (is_upper(k))
             {
                 temp = (int)e - 48 - ((int)k - 65);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 10;
                 dec += nums[temp % 10];
             }
             else if (is_lower(k))
             {
                 temp = (int)e - 48 - ((int)k - 97);
-                while(temp < 0)
+                while (temp < 0)
                     temp += 10;
                 dec += nums[temp % 10];
             }
+        }
+        else
+        {
+            dec += enc[i];
+        }
+    }
+    return dec;
+}
+
+//****************************************************ATBASH CIPHER****************************************************************//
+
+std::string Crypto::atbash_encrypt(std::string msg)
+{
+    std::string enc = "";
+    for (int i = 0; i < msg.size(); i++)
+    {
+        if (is_upper(msg[i]))
+        {
+            enc += c_alpha[25 - ((int)msg[i] - 65)];
+        }
+        else if (is_lower(msg[i]))
+        {
+            enc += l_alpha[25 - ((int)msg[i] - 97)];
+        }
+        else if (is_num(msg[i]))
+        {
+            enc += nums[9 - ((int)msg[i] - 48)];
+        }
+        else
+        {
+            enc += msg[i];
+        }
+    }
+    return enc;
+}
+
+std::string Crypto::atbash_decrypt(std::string enc)
+{
+    std::string dec = "";
+    for (int i = 0; i < enc.size(); i++)
+    {
+        if (is_upper(enc[i]))
+        {
+            dec += c_alpha[25 - ((int)enc[i] - 65)];
+        }
+        else if (is_lower(enc[i]))
+        {
+            dec += l_alpha[25 - ((int)enc[i] - 97)];
+        }
+        else if (is_num(enc[i]))
+        {
+            dec += nums[9 - ((int)enc[i] - 48)];
         }
         else
         {

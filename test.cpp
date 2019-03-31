@@ -23,9 +23,12 @@ int main()
     // string vigenere_enc = c.vigenere_encrypt(read_caesar_enc, vigenere_key);
     // c.write_to_file("vigenere_enc.txt", vigenere_enc);
 
+    // string read_vigenere = c.read_from_file("vigenere_enc.txt");
+    // string atbash_enc = c.atbash_encrypt(read_vigenere);
+    // c.write_to_file("atbash_enc.txt", atbash_enc);
 
-    // Public Key: 34621
-    // Private Key: -25719
+    // Public Key: 31687
+    // Private Key: 4623
     // n: 59989
 
     // int privkey, pubkey, n;
@@ -35,8 +38,8 @@ int main()
     // cout << "Private Key: " << privkey << endl;
     // cout << "n: " << n << endl;
 
-    // string read_vigenere_enc = c.read_from_file("vigenere_enc.txt");
-    // vector<unsigned int> rsa_enc = c.rsa_encrypt(read_vigenere_enc, 34621, 59989);
+    // string read_atbash_enc = c.read_from_file("atbash_enc.txt");
+    // vector<unsigned int> rsa_enc = c.rsa_encrypt(read_atbash_enc, 31687, 59989);
     // c.write_rsa_encryption_file("rsa_enc.txt", rsa_enc);
 
     //****************************END OF ENCRYPTION****************************************//
@@ -44,9 +47,11 @@ int main()
     //*******************************DECRYPTION**********************************************//
 
     vector<unsigned int> read_rsa_enc = c.read_rsa_encryption_file("rsa_enc.txt");
-    string rsa_dec = c.rsa_decrypt(read_rsa_enc, -25719, 59989);
+    string rsa_dec = c.rsa_decrypt(read_rsa_enc, 4623, 59989);
     cout << rsa_dec << endl;
-    string vigenere_dec = c.vigenere_decrypt(rsa_dec, "Gold");
+    string atbash_dec = c.atbash_decrypt(rsa_dec);
+    cout << atbash_dec << endl;
+    string vigenere_dec = c.vigenere_decrypt(atbash_dec, "Gold");
     cout << vigenere_dec << endl;
     string caesar_dec = c.caesar_decrypt(vigenere_dec, 10);
     cout << caesar_dec << endl;
