@@ -78,6 +78,7 @@ void Crypto::genkeys_and_n(int &e, int &d, int &n)
 
 std::vector<uint> Crypto::rsa_encrypt(std::string msg, int pubKey, int rem)
 {
+    std::string x = "";
     std::vector<uint> crypt_arr(msg.size());
     for (int i = 0; i < msg.size(); i++)
     {
