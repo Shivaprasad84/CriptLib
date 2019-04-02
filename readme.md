@@ -4,6 +4,7 @@
     <li>Caesar's Cipher</li>
     <li>Vigenere Cipher</li>
     <li>Atbash Cipher</li>
+    <li>Xor Cipher</li>
     <li>Public Key Encryption: RSA</li>
 </ul>
     
