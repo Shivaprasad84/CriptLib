@@ -376,6 +376,41 @@ std::string Crypto::atbash_decrypt(std::string enc)
     return dec;
 }
 
+//**************************************************XORCIPHER**********************************************************************//
+
+std::string Crypto::xorcipher_encrypt(const std::string& msg, const std::string& key)
+{
+    std::stringstream res;
+    std::string enc;
+    for(int i = 0; i < msg.size(); i++)
+    {
+        int temp = (int)msg[i] ^ (int)key[i % key.size()];
+        res << std::hex << std::setfill('0') << std::setw(2) << temp;
+    }
+    res >> enc;
+    return enc;
+}
+
+
+std::string Crypto::xorcipher_decrypt(const std::string& enc, const std::string& key)
+{
+    std::string temp_str;
+    std::string dec;
+    for(int i = 0; i < enc.size() - 1; i += 2)
+    {
+        std::string op = enc.substr(i, 2);
+        int decimal = stoi(op, 0, 16);
+        temp_str += (char)decimal;
+    }
+
+    for(int i = 0; i < temp_str.size(); i++)
+    {
+        int temp = (int)temp_str[i] ^ (int)key[i % key.size()]; 
+        dec += (char)temp;
+    }
+    return dec;
+}
+
 // ************************************************* File I/O **********************************************************************//
 
 void Crypto::write_to_file(const std::string &fname, std::string &data)

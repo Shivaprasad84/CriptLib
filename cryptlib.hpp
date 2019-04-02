@@ -45,9 +45,15 @@ public:
 
   std::string atbash_decrypt(std::string enc);
 
+  std::string xorcipher_encrypt(const std::string& msg, const std::string& key);
+
+  std::string xorcipher_decrypt(const std::string& enc, const std::string& key);
+
   std::string to_hex(const std::string &msg);
 
   std::string to_unicode(const std::string &msg);
+
+
 
   void write_to_file(const std::string &fname, std::string &data);
 
