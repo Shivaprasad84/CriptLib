@@ -116,31 +116,29 @@ bool Crypto::is_upper(char x)
 bool Crypto::is_num(char x)
 {
     int temp = (int)x;
-    return temp >= '1' && temp <= '9';
+    return temp >= '0' && temp <= '9';
 }
 
-std::string Crypto::to_hex(const std::string& msg)
+std::string Crypto::to_hex(const std::string &msg)
 {
-    int bias = 12;
     std::stringstream res;
-    for(int i = 0; i < msg.size(); i++)
+    for (int i = 0; i < msg.size(); i++)
     {
-        res << std::hex << std::setfill('0') << std::setw(2) << ((int)msg[i] + 12);
+        res << std::hex << std::setfill('0') << std::setw(2) << ((int)msg[i]);
     }
     std::string hex;
     res >> hex;
     return hex;
 }
 
-std::string Crypto::to_unicode(const std::string& msg)
+std::string Crypto::to_unicode(const std::string &msg)
 {
-    int bias = 12;
-    std::string unicode; 
-    for(int i = 0; i < msg.size() - 1; i += 2)
+    std::string unicode;
+    for (int i = 0; i < msg.size() - 1; i += 2)
     {
         std::string op = msg.substr(i, 2);
         int decimal = std::stoi(op, 0, 16);
-        unicode += (char)(decimal - bias);
+        unicode += (char)decimal;
     }
     return unicode;
 }
@@ -378,11 +376,11 @@ std::string Crypto::atbash_decrypt(std::string enc)
 
 //**************************************************XORCIPHER**********************************************************************//
 
-std::string Crypto::xorcipher_encrypt(const std::string& msg, const std::string& key)
+std::string Crypto::xorcipher_encrypt(const std::string &msg, const std::string &key)
 {
-    std::stringstream res;
     std::string enc;
-    for(int i = 0; i < msg.size(); i++)
+    std::stringstream res;
+    for (int i = 0; i < msg.size(); i++)
     {
         int temp = (int)msg[i] ^ (int)key[i % key.size()];
         res << std::hex << std::setfill('0') << std::setw(2) << temp;
@@ -391,21 +389,19 @@ std::string Crypto::xorcipher_encrypt(const std::string& msg, const std::string&
     return enc;
 }
 
-
-std::string Crypto::xorcipher_decrypt(const std::string& enc, const std::string& key)
+std::string Crypto::xorcipher_decrypt(const std::string &enc, const std::string &key)
 {
-    std::string temp_str;
-    std::string dec;
-    for(int i = 0; i < enc.size() - 1; i += 2)
+    std::string dec, de;
+    for (int i = 0; i < enc.size() - 1; i += 2)
     {
         std::string op = enc.substr(i, 2);
-        int decimal = stoi(op, 0, 16);
-        temp_str += (char)decimal;
+        int decimal = std::stoi(op, 0, 16);
+        de += (char)decimal;
     }
 
-    for(int i = 0; i < temp_str.size(); i++)
+    for (int i = 0; i < de.size(); i++)
     {
-        int temp = (int)temp_str[i] ^ (int)key[i % key.size()]; 
+        int temp = (int)de[i] ^ (int)key[i % key.size()];
         dec += (char)temp;
     }
     return dec;
@@ -455,7 +451,8 @@ std::string Crypto::read_from_file(const std::string &fname)
         }
     }
     file.close();
-    return msg;
+    std::string message = sanitize_str(msg);
+    return message;
 }
 
 std::vector<uint> Crypto::read_rsa_encryption_file(const std::string &fname)
@@ -472,4 +469,11 @@ std::vector<uint> Crypto::read_rsa_encryption_file(const std::string &fname)
     }
     file.close();
     return vec;
+}
+
+std::string Crypto::sanitize_str(const std::string &str)
+{
+    std::string temp = str;
+    temp.erase(std::find_if(temp.rbegin(), temp.rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), temp.end());
+    return temp;
 }

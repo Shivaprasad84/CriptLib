@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <fstream>
 #include <ctime>
+#include <algorithm>
 
 class Crypto
 {
@@ -62,4 +63,6 @@ public:
   std::string read_from_file(const std::string &fname);
 
   std::vector<unsigned int> read_rsa_encryption_file(const std::string &fname);
+
+  std::string sanitize_str(const std::string& str);
 };

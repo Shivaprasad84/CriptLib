@@ -8,18 +8,18 @@ int main()
 {
     Crypto c;
 
-    // string plaintext = "Attack at Dawn";
+    // string plaintext = "SO What!!! Pandith";
     // c.write_to_file("plaintxt.txt", plaintext);
 
     //*****************************************ENCRYPTION*************************************************//
 
     // string read_plaintxt = c.read_from_file("plaintxt.txt");
-    // int c_key = 10;
+    // int c_key = 19;
     // string caesar_enc = c.caesar_encrypt(read_plaintxt, c_key);
     // c.write_to_file("caesar_enc.txt", caesar_enc);
 
     // string read_caesar_enc = c.read_from_file("caesar_enc.txt");
-    // string vigenere_key = "Gold";
+    // string vigenere_key = "Thanos";
     // string vigenere_enc = c.vigenere_encrypt(read_caesar_enc, vigenere_key);
     // c.write_to_file("vigenere_enc.txt", vigenere_enc);
 
@@ -31,15 +31,15 @@ int main()
     // string hex = c.to_hex(to_hex);
     // c.write_to_file("hexfile.txt", hex);
 
-    string msg = "Hello world 1234567890";
-    string key = "Avengers";
-    string enc = c.xorcipher_encrypt(msg, key);
-    cout << "Encrypted: " << enc << endl;
-    string dec = c.xorcipher_decrypt(enc, key);
-    cout << "Decrypted: " << dec << endl;
+    // string msg = "Hello world 1234567890";
+    // string key = "Avengers";
+    // string enc = c.xorcipher_encrypt(msg, key);
+    // cout << "Encrypted: " << enc << endl;
+    // string dec = c.xorcipher_decrypt(enc, key);
+    // cout << "Decrypted: " << dec << endl;
 
-    // Public Key: 17919
-    // Private Key: 22679
+    // Public Key: 42747
+    // Private Key: 10083
     // n: 59989
 
     // int privkey, pubkey, n;
@@ -50,25 +50,22 @@ int main()
     // cout << "n: " << n << endl;
 
     // string read_atbash_enc = c.read_from_file("hexfile.txt");
-    // vector<unsigned int> rsa_enc = c.rsa_encrypt(read_atbash_enc, 17919, 59989);
+    // vector<unsigned int> rsa_enc = c.rsa_encrypt(read_atbash_enc, 42747, 59989);
     // c.write_rsa_encryption_file("rsa_enc.txt", rsa_enc);
 
     //****************************END OF ENCRYPTION****************************************//
 
     //*******************************DECRYPTION**********************************************//
+    //Encryption Sequence: Caesar Cipher: key = 5; Vigenere Cipher: key = Gold; Caesar Cipher: key = 4; Atbash Cipher; Xor Cipher: key = Hello;
 
-    // vector<unsigned int> read_rsa_enc = c.read_rsa_encryption_file("rsa_enc.txt");
-    // string rsa_dec = c.rsa_decrypt(read_rsa_enc, 22679, 59989);
-    // cout << "RSA Decryption: " << rsa_dec << endl;
-    // string unicode = c.to_unicode(rsa_dec);
-    // cout << "Hex Decryption: " << unicode << endl;
-    // string atbash_dec = c.atbash_decrypt(unicode);
-    // cout << "Atbash Decryption: " << atbash_dec << endl;
-    // string vigenere_dec = c.vigenere_decrypt(atbash_dec, "Gold");
-    // cout << "Vigenere Decryption: " << vigenere_dec << endl;
-    // string caesar_dec = c.caesar_decrypt(vigenere_dec, 10);
-    // cout << "Caesar Decryption: " << caesar_dec << endl;
-    // c.write_to_file("decrypt.txt", caesar_dec);
+    // string read = c.read_from_file("encryption.txt");
+    // string d_one = c.xorcipher_decrypt(read, "Hello");
+    // string d_two = c.atbash_decrypt(d_one);
+    // string d_three = c.caesar_decrypt(d_two, 4);
+    // string d_four = c.vigenere_decrypt(d_three, "Gold");
+    // string d_five = c.caesar_decrypt(d_four, 5);
+    // cout << d_five << endl;
+
 
     //****************************END OF DECRYPTION*******************************************************//
 }
