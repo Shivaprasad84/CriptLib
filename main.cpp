@@ -41,7 +41,8 @@ void caesar_encrypt()
     sequence_str += k + "; ";
     int key = stoi(k);
     enc = c.caesar_encrypt(msg, key);
-    cout << "\n\t\t\t\t   Caesar Encryption Completed\n" << endl;
+    cout << "\n\t\t\t\t   Caesar Encryption Completed\n"
+         << endl;
     c.write_to_file("caesar_enc.txt", enc);
     c.write_to_file("information.txt", enc);
 }
@@ -65,7 +66,8 @@ void vigenere_encrypt()
     cin >> key;
     sequence_str += key + "; ";
     enc = c.vigenere_encrypt(msg, key);
-    cout << "\n\t\t\t\t   Vigenere Encryption Completed\n" << endl;
+    cout << "\n\t\t\t\t   Vigenere Encryption Completed\n"
+         << endl;
     c.write_to_file("vigenere_enc.txt", enc);
     c.write_to_file("information.txt", enc);
 }
@@ -86,7 +88,8 @@ void atbash_encrypt()
         msg = c.read_from_file("information.txt");
     }
     enc = c.atbash_encrypt(msg);
-    cout << "\n\t\t\t\t   Atbash Encryption Completed\n" << endl;
+    cout << "\n\t\t\t\t   Atbash Encryption Completed\n"
+         << endl;
     c.write_to_file("atbash_enc.txt", enc);
     c.write_to_file("information.txt", enc);
 }
@@ -110,7 +113,8 @@ void xor_encrypt()
     cin >> key;
     sequence_str += key + "; ";
     enc = c.xorcipher_encrypt(msg, key);
-    cout << "\n\t\t\t\t   Xor Encryption Completed\n" << endl;
+    cout << "\n\t\t\t\t   Xor Encryption Completed\n"
+         << endl;
     c.write_to_file("xor_enc.txt", enc);
     c.write_to_file("information.txt", enc);
 }
@@ -161,7 +165,7 @@ int main()
 {
     int choice;
     system("clear");
-    cout << endl; 
+    cout << endl;
     cout << "\t\t\t\t\tWelcome To CryptLib" << endl;
     cout << "\t\t\t\t\t------- -- --------" << endl;
     cout << endl;
@@ -175,14 +179,16 @@ int main()
         // Encryption
         int level;
         cout << endl;
+        cout << "\t\t\t\t   Available Encryption Methods" << endl;
+        cout << "\t\t\t\t   --------- ---------- -------" << endl;
         cout << "\t\t\t\t\t1. Caesar Cipher" << endl;
         cout << "\t\t\t\t\t2. Vigenere Cipher" << endl;
         cout << "\t\t\t\t\t3. Atbash Cipher" << endl;
         cout << "\t\t\t\t\t4. Xor Cipher" << endl;
         cout << endl;
-        cout << "Enter the level of encryption: ";
+        cout << "Enter the level of encryption(number of layers): ";
         cin >> level;
-        cout << "\nEnter " << level << " number(s): " << endl;
+        cout << "\nEnter " << level << " number(s) corresponding to the available encryption techniques: " << endl;
         vector<int> enc_sequence(level);
         for (int i = 0; i < level; i++)
         {
@@ -248,6 +254,8 @@ int main()
         stack s;
         int level;
         cout << endl;
+        cout << "\t\t\t\t   Available Decryption Methods" << endl;
+        cout << "\t\t\t\t   --------- ---------- -------" << endl;
         cout << "\t\t\t\t\t1. Caesar Cipher" << endl;
         cout << "\t\t\t\t\t2. Vigenere Cipher" << endl;
         cout << "\t\t\t\t\t3. Atbash Cipher" << endl;
@@ -337,7 +345,7 @@ int main()
         cout << "Public key : " << public_key << endl;
         cout << "n          : " << n << endl;
     }
-    else if(choice == 4)
+    else if (choice == 4)
     {
         return EXIT_SUCCESS;
     }
