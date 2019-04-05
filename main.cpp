@@ -168,6 +168,7 @@ int main()
     cout << "\t\t\t\t\t1. Encryption" << endl;
     cout << "\t\t\t\t\t2. Decryption" << endl;
     cout << "\t\t\t\t\t3. Generate RSA keys" << endl;
+    cout << "\t\t\t\t\t4. Exit" << endl;
     cin >> choice;
     if (choice == 1)
     {
@@ -264,7 +265,7 @@ int main()
             case 1:
             {
                 int t;
-                cout << "\nEnter Caesar Key: ";
+                cout << "Enter Caesar Key: ";
                 cin >> t;
                 integer_keys.push_back(t);
                 break;
@@ -272,20 +273,20 @@ int main()
             case 2:
             {
                 string temp;
-                cout << "\nEnter Vigenere Cipher Key: ";
+                cout << "Enter Vigenere Cipher Key: ";
                 cin >> temp;
                 string_keys.push_back(temp);
                 break;
             }
             case 3:
             {
-                cout << "\nNo key for Atbash Cipher";
+                cout << "No key for Atbash Cipher" << endl;
                 break;
             }
             case 4:
             {
                 string temp;
-                cout << "\nEnter XOR Cipher Key: ";
+                cout << "Enter XOR Cipher Key: ";
                 cin >> temp;
                 string_keys.push_back(temp);
                 break;
@@ -335,6 +336,10 @@ int main()
         cout << "Private key: " << private_key << endl;
         cout << "Public key : " << public_key << endl;
         cout << "n          : " << n << endl;
+    }
+    else if(choice == 4)
+    {
+        return EXIT_SUCCESS;
     }
     else
     {
