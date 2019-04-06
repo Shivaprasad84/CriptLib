@@ -76,7 +76,7 @@ void Crypto::genkeys_and_n(int &e, int &d, int &n)
     d = privKey;
 }
 
-std::vector<uint> Crypto::rsa_encrypt(std::string msg, int pubKey, int rem)
+std::vector<uint> Crypto::rsa_encrypt(const std::string& msg, int pubKey, int rem)
 {
     std::string x = "";
     std::vector<uint> crypt_arr(msg.size());
@@ -145,7 +145,7 @@ std::string Crypto::to_unicode(const std::string &msg)
 
 //******************************************************* Caesar Cipher ************************************************************//
 
-std::string Crypto::caesar_encrypt(std::string msg, int key)
+std::string Crypto::caesar_encrypt(const std::string& msg, int key)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -170,7 +170,7 @@ std::string Crypto::caesar_encrypt(std::string msg, int key)
     return enc;
 }
 
-std::string Crypto::caesar_decrypt(std::string enc, int key)
+std::string Crypto::caesar_decrypt(const std::string& enc, int key)
 {
     std::string dec = "";
     int temp;
@@ -207,7 +207,7 @@ std::string Crypto::caesar_decrypt(std::string enc, int key)
 
 //******************************************************* Vigenere Cipher ************************************************************//
 
-std::string Crypto::vigenere_encrypt(std::string msg, std::string key)
+std::string Crypto::vigenere_encrypt(const std::string& msg, const std::string& key)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -255,7 +255,7 @@ std::string Crypto::vigenere_encrypt(std::string msg, std::string key)
     return enc;
 }
 
-std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
+std::string Crypto::vigenere_decrypt(const std::string& enc, const std::string& key)
 {
     std::string dec = "";
     int temp;
@@ -324,7 +324,7 @@ std::string Crypto::vigenere_decrypt(std::string enc, std::string key)
 
 //****************************************************ATBASH CIPHER****************************************************************//
 
-std::string Crypto::atbash_encrypt(std::string msg)
+std::string Crypto::atbash_encrypt(const std::string& msg)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -349,7 +349,7 @@ std::string Crypto::atbash_encrypt(std::string msg)
     return enc;
 }
 
-std::string Crypto::atbash_decrypt(std::string enc)
+std::string Crypto::atbash_decrypt(const std::string& enc)
 {
     std::string dec = "";
     for (int i = 0; i < enc.size(); i++)
@@ -409,7 +409,7 @@ std::string Crypto::xorcipher_decrypt(const std::string &enc, const std::string 
 
 // ************************************************* File I/O **********************************************************************//
 
-void Crypto::write_to_file(const std::string &fname, std::string &data)
+void Crypto::write_to_file(const std::string &fname, const std::string &data)
 {
     std::ofstream file(fname);
     if (file.is_open())

@@ -30,21 +30,21 @@ public:
   Crypto();
   void genkeys_and_n(int &e, int &d, int &n);
 
-  std::vector<unsigned int> rsa_encrypt(std::string msg, int pubKey, int rem);
+  std::vector<unsigned int> rsa_encrypt(const std::string& msg, int pubKey, int rem);
 
   std::string rsa_decrypt(std::vector<unsigned int> crypt_arr, int privKey, int rem);
 
-  std::string caesar_encrypt(std::string msg, int key);
+  std::string caesar_encrypt(const std::string& msg, int key);
 
-  std::string caesar_decrypt(std::string enc, int key);
+  std::string caesar_decrypt(const std::string& enc, int key);
 
-  std::string vigenere_encrypt(std::string msg, std::string key);
+  std::string vigenere_encrypt(const std::string& msg, const std::string& key);
 
-  std::string vigenere_decrypt(std::string enc, std::string key);
+  std::string vigenere_decrypt(const std::string& enc, const std::string& key);
 
-  std::string atbash_encrypt(std::string msg);
+  std::string atbash_encrypt(const std::string& msg);
 
-  std::string atbash_decrypt(std::string enc);
+  std::string atbash_decrypt(const std::string& enc);
 
   std::string xorcipher_encrypt(const std::string& msg, const std::string& key);
 
@@ -56,7 +56,7 @@ public:
 
 
 
-  void write_to_file(const std::string &fname, std::string &data);
+  void write_to_file(const std::string &fname, const std::string &data);
 
   void write_rsa_encryption_file(const std::string &fname, std::vector<unsigned int> &data);
 
