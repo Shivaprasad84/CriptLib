@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <fstream>
+#include <windows.h>
 #include "cryptlib.hpp"
 #include "stack.hpp"
 
@@ -11,6 +12,7 @@ string sequence_str = "Encryption Sequence: ";
 Crypto c;
 vector<int> integer_keys;
 vector<string> string_keys;
+int level_of_encryption = 0;
 namespace crypt_file
 {
 bool is_empty(ifstream &file)
@@ -23,6 +25,7 @@ bool is_empty(ifstream &file)
 
 void caesar_encrypt()
 {
+    level_of_encryption++;
     ifstream file("information.txt");
     string msg, enc, k;
     if (crypt_file::is_empty(file))
@@ -49,6 +52,7 @@ void caesar_encrypt()
 
 void vigenere_encrypt()
 {
+    level_of_encryption++;
     ifstream file("information.txt");
     string msg, key, enc;
     if (crypt_file::is_empty(file))
@@ -74,6 +78,7 @@ void vigenere_encrypt()
 
 void atbash_encrypt()
 {
+    level_of_encryption++;
     ifstream file("information.txt");
     string msg, enc;
     if (crypt_file::is_empty(file))
@@ -96,6 +101,7 @@ void atbash_encrypt()
 
 void xor_encrypt()
 {
+    level_of_encryption++;
     ifstream file("information.txt");
     string msg, enc, key;
     if (crypt_file::is_empty(file))
@@ -116,6 +122,31 @@ void xor_encrypt()
     cout << "\n\t\t\t\t   Xor Encryption Completed\n"
          << endl;
     c.write_to_file("xor_enc.txt", enc);
+    c.write_to_file("information.txt", enc);
+}
+
+void ct_encrypt()
+{
+    level_of_encryption++;
+    ifstream file("information.txt");
+    string msg, enc, key;
+    if (crypt_file::is_empty(file))
+    {
+        cout << "Enter a message to encrypt: ";
+        cin.get();
+        getline(cin, msg);
+        c.write_to_file("plaintxt.txt", msg);
+    }
+    else
+    {
+        msg = c.read_from_file("information.txt");
+    }
+    cout << "Enter a key(word, non repeating chars) for columnar transposition encryption: ";
+    cin >> key;
+    sequence_str += key + "; ";
+    enc = c.ct_encrypt(msg, key);
+    cout << "\n\t\t\t\t   Columnar Transposition Encryption Completed" << endl;
+    c.write_to_file("ct_enc.txt", enc);
     c.write_to_file("information.txt", enc);
 }
 
@@ -159,12 +190,25 @@ void xor_decrypt()
     c.write_to_file("xor_dec.txt", dec);
 }
 
+void ct_decrypt()
+{
+    string enc = c.read_from_file("information.txt");
+    string key = string_keys.at(string_keys.size() - 1);
+    string_keys.pop_back();
+    string dec = c.ct_decrypt(enc, key);
+    c.write_to_file("information.txt", dec);
+    c.write_to_file("ct_dec.txt", dec);
+}
+
 //************************************************************************************************************************************//
 
 int main()
 {
+start:
     int choice;
+    int color = 0x0a;
     system("clear");
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
     cout << endl;
     cout << "\t\t\t\t\tWelcome To CryptLib" << endl;
     cout << "\t\t\t\t\t------- -- --------" << endl;
@@ -177,6 +221,8 @@ int main()
     if (choice == 1)
     {
         // Encryption
+        color = 0x0b;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         int level;
         cout << endl;
         cout << "\t\t\t\t   Available Encryption Methods" << endl;
@@ -184,8 +230,16 @@ int main()
         cout << "\t\t\t\t\t1. Caesar Cipher" << endl;
         cout << "\t\t\t\t\t2. Vigenere Cipher" << endl;
         cout << "\t\t\t\t\t3. Atbash Cipher" << endl;
-        cout << "\t\t\t\t\t4. Xor Cipher" << endl;
+        cout << "\t\t\t\t\t4. Columnar Transposition Cipher" << endl;
+        cout << "\t\t\t\t\t5. Xor Cipher" << endl;
         cout << endl;
+        color = 0x0c;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cout << "\t\t Note: Columnar transposition should not be used more than two times in an encryption sequence" << endl;
+        cout << "\t\t and do not use the same key for subsequent encryptions" << endl;
+        cout << endl;
+        color = 0x0a;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         cout << "Enter the level of encryption(number of layers): ";
         cin >> level;
         cout << "\nEnter " << level << " number(s) corresponding to the available encryption techniques: " << endl;
@@ -224,8 +278,15 @@ int main()
             }
             case 4:
             {
+                // Columnar Transposition Cipher
+                sequence_str += "(4)Columnar Transposition Cipher: key = ";
+                ct_encrypt();
+                break;
+            }
+            case 5:
+            {
                 // Xor Cipher
-                sequence_str += "(4)Xor Cipher: key = ";
+                sequence_str += "(5)Xor Cipher: key = ";
                 xor_encrypt();
                 break;
             }
@@ -236,12 +297,17 @@ int main()
         cin >> public_key;
         cout << "Enter n: ";
         cin >> n;
+        sequence_str += " Level of Encryption: " + to_string(level_of_encryption) + ";";
         vector<unsigned int> sequence = c.rsa_encrypt(sequence_str, public_key, n);
         c.write_rsa_encryption_file("sequence_file.txt", sequence);
+        color = 0x0a;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
     }
     else if (choice == 2)
     {
         // Decryption
+        color = 0x09;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         int private_key, n;
         cout << "Enter private key: ";
         cin >> private_key;
@@ -259,7 +325,8 @@ int main()
         cout << "\t\t\t\t\t1. Caesar Cipher" << endl;
         cout << "\t\t\t\t\t2. Vigenere Cipher" << endl;
         cout << "\t\t\t\t\t3. Atbash Cipher" << endl;
-        cout << "\t\t\t\t\t4. Xor Cipher" << endl;
+        cout << "\t\t\t\t\t4. Columnar Transposition Cipher" << endl;
+        cout << "\t\t\t\t\t5. Xor Cipher" << endl;
         cout << endl;
         cout << "Enter the level of decryption: ";
         cin >> level;
@@ -292,6 +359,14 @@ int main()
                 break;
             }
             case 4:
+            {
+                string temp;
+                cout << "Enter Columnar Transposition Cipher key: ";
+                cin >> temp;
+                string_keys.push_back(temp);
+                break;
+            }
+            case 5:
             {
                 string temp;
                 cout << "Enter XOR Cipher Key: ";
@@ -328,22 +403,40 @@ int main()
             }
             case 4:
             {
+                // Columnar Transposition Cipher
+                ct_decrypt();
+                break;
+            }
+            case 5:
+            {
                 // Xor Cipher
                 xor_decrypt();
                 break;
             }
             }
         }
+        color = 0x0a;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
     }
     else if (choice == 3)
     {
         //Generate Keys and n
+        color = 0x0c;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         int private_key, public_key, n;
         private_key = public_key = n = 0;
         c.genkeys_and_n(public_key, private_key, n);
-        cout << "Private key: " << private_key << endl;
-        cout << "Public key : " << public_key << endl;
-        cout << "n          : " << n << endl;
+        cout << "\t\t\t\t   RSA Key Pairs" << endl;
+        cout << "\t\t\t\t   --- --- -----" << endl;
+        color = 0x01;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cout << "\t\t\t\tPrivate key: "
+             << "(" << private_key << ", " << n << ")" << endl;
+        cout << "\t\t\t\tPublic key: "
+             << "(" << public_key << ", " << n << ")" << endl;
+        cout << "\t\t\t\tn          : " << n << endl;
+        color = 0x0a;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
     }
     else if (choice == 4)
     {
@@ -351,6 +444,11 @@ int main()
     }
     else
     {
-        cout << "Invalid Choice! Try Again" << endl;
+        color = 0x0c;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cout << "Invalid Choice! Try Again. Press Enter to continue..." << endl;
+        cin.get();
+        cin.get();
+        goto start;
     }
 }

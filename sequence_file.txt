@@ -1,1 +1,0 @@
-Encryption Sequence: (3)Atbash Cipher; (1)Caesar Cipher: key = 12; (2)Vigenere Cipher: key = Avengers; (4)Xor Cipher: key = endgame; 

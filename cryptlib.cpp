@@ -76,7 +76,7 @@ void Crypto::genkeys_and_n(int &e, int &d, int &n)
     d = privKey;
 }
 
-std::vector<uint> Crypto::rsa_encrypt(const std::string& msg, int pubKey, int rem)
+std::vector<uint> Crypto::rsa_encrypt(const std::string &msg, int pubKey, int rem)
 {
     std::string x = "";
     std::vector<uint> crypt_arr(msg.size());
@@ -145,7 +145,7 @@ std::string Crypto::to_unicode(const std::string &msg)
 
 //******************************************************* Caesar Cipher ************************************************************//
 
-std::string Crypto::caesar_encrypt(const std::string& msg, int key)
+std::string Crypto::caesar_encrypt(const std::string &msg, int key)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -170,7 +170,7 @@ std::string Crypto::caesar_encrypt(const std::string& msg, int key)
     return enc;
 }
 
-std::string Crypto::caesar_decrypt(const std::string& enc, int key)
+std::string Crypto::caesar_decrypt(const std::string &enc, int key)
 {
     std::string dec = "";
     int temp;
@@ -207,7 +207,7 @@ std::string Crypto::caesar_decrypt(const std::string& enc, int key)
 
 //******************************************************* Vigenere Cipher ************************************************************//
 
-std::string Crypto::vigenere_encrypt(const std::string& msg, const std::string& key)
+std::string Crypto::vigenere_encrypt(const std::string &msg, const std::string &key)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -255,7 +255,7 @@ std::string Crypto::vigenere_encrypt(const std::string& msg, const std::string& 
     return enc;
 }
 
-std::string Crypto::vigenere_decrypt(const std::string& enc, const std::string& key)
+std::string Crypto::vigenere_decrypt(const std::string &enc, const std::string &key)
 {
     std::string dec = "";
     int temp;
@@ -324,7 +324,7 @@ std::string Crypto::vigenere_decrypt(const std::string& enc, const std::string& 
 
 //****************************************************ATBASH CIPHER****************************************************************//
 
-std::string Crypto::atbash_encrypt(const std::string& msg)
+std::string Crypto::atbash_encrypt(const std::string &msg)
 {
     std::string enc = "";
     for (int i = 0; i < msg.size(); i++)
@@ -349,7 +349,7 @@ std::string Crypto::atbash_encrypt(const std::string& msg)
     return enc;
 }
 
-std::string Crypto::atbash_decrypt(const std::string& enc)
+std::string Crypto::atbash_decrypt(const std::string &enc)
 {
     std::string dec = "";
     for (int i = 0; i < enc.size(); i++)
@@ -407,6 +407,124 @@ std::string Crypto::xorcipher_decrypt(const std::string &enc, const std::string 
     return dec;
 }
 
+//***************************************COLUMNAR TRANSPOSITION CIPHER*************************************************************//
+
+std::string Crypto::key_to_num(const std::string &key)
+{
+    std::string num_key;
+    std::string k = key;
+    std::sort(k.begin(), k.end());
+    for (int i = 0; i < k.size(); i++)
+    {
+        num_key += (char)((k.find(key[i]) + 1) + 48);
+    }
+    return num_key;
+}
+
+std::string Crypto::ct_encrypt(const std::string &msg, const std::string &key)
+{
+    std::string enc;
+    std::string k = key_to_num(key);
+    int k_size = k.size();
+    int r = (msg.length() / k_size) + 1;
+    char **mat = new char *[r];
+    for (int i = 0; i < r; i++)
+    {
+        mat[i] = new char[k_size];
+    }
+
+    std::vector<int> vec(k_size);
+    for (int i = 0; i < k_size; i++)
+    {
+        vec.at(i) = (int)k[i] - 48;
+    }
+
+    int x = 0;
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < k_size; j++)
+        {
+            if (!msg[x])
+            {
+                mat[i][j] = '`';
+            }
+            else if (msg[x] == ' ')
+            {
+                mat[i][j] = '`';
+            }
+            else
+            {
+                mat[i][j] = msg[x];
+            }
+            x++;
+        }
+    }
+
+    for (int i = 0; i < k_size; i++)
+    {
+        for (int j = 0; j < r; j++)
+        {
+            enc += mat[j][vec[i] - 1];
+        }
+    }
+    return enc;
+}
+
+std::string Crypto::ct_decrypt(const std::string &enc, const std::string &key)
+{
+    std::string dec;
+    std::string k = key_to_num(key);
+    int k_size = k.size();
+    std::vector<int> vec(k_size);
+    for (int i = 0; i < k_size; i++)
+    {
+        vec.at(i) = (int)k[i] - 48;
+    }
+
+    int r = (enc.length() / k_size);
+    char **mat = new char *[r];
+    for (int i = 0; i < r; i++)
+    {
+        mat[i] = new char[k_size];
+    }
+
+    int x = 0;
+    for (int i = 0; i < k_size; i++)
+    {
+        for (int j = 0; j < r; j++)
+        {
+            if (!enc[x])
+            {
+                mat[j][i] = '`';
+            }
+            else if (enc[i] == ' ')
+            {
+                mat[j][vec[i] - 1] = '`';
+            }
+            else
+            {
+                mat[j][vec[i] - 1] = enc[x];
+            }
+            x++;
+        }
+    }
+
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < k_size; j++)
+        {
+            dec += mat[i][j];
+        }
+    }
+    std::string decrypted = "";
+    for(int i = 0; i < dec.size(); i++)
+    {
+        char temp = dec[i];
+        decrypted += (temp == '`') ?  ' ' : dec[i];
+    }
+    return decrypted;
+}
+
 // ************************************************* File I/O **********************************************************************//
 
 void Crypto::write_to_file(const std::string &fname, const std::string &data)
@@ -440,7 +558,6 @@ std::string Crypto::read_from_file(const std::string &fname)
 {
     std::string word;
     std::string msg = "";
-    std::vector<uint> vec;
     std::ifstream file(fname);
     if (file.is_open())
     {

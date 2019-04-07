@@ -38,9 +38,9 @@ int main()
     // string dec = c.xorcipher_decrypt(enc, key);
     // cout << "Decrypted: " << dec << endl;
 
-    // Public Key: 42747
-    // Private Key: 10083
-    // n: 59989
+// Private key: -17883
+// Public key : 43453
+// n          : 59989
 
     // int privkey, pubkey, n;
     // privkey = pubkey = n = 0;

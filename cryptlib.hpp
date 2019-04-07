@@ -7,6 +7,7 @@
 #include <fstream>
 #include <ctime>
 #include <algorithm>
+#include <iterator>
 
 class Crypto
 {
@@ -54,7 +55,11 @@ public:
 
   std::string to_unicode(const std::string &msg);
 
+  std::string key_to_num(const std::string &key);
 
+  std::string ct_encrypt(const std::string &msg, const std::string &key);
+
+  std::string ct_decrypt(const std::string &enc, const std::string &key);
 
   void write_to_file(const std::string &fname, const std::string &data);
 
