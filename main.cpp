@@ -217,6 +217,7 @@ start:
     cout << "\t\t\t\t\t2. Decryption" << endl;
     cout << "\t\t\t\t\t3. Generate RSA keys" << endl;
     cout << "\t\t\t\t\t4. Exit" << endl;
+    cout << ">>> ";
     cin >> choice;
     if (choice == 1)
     {
@@ -235,8 +236,9 @@ start:
         cout << endl;
         color = 0x0c;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-        cout << "\t\t Note: Columnar transposition should not be used more than two times in an encryption sequence" << endl;
-        cout << "\t\t and do not use the same key for subsequent encryptions" << endl;
+        cout << "\t\t    Note: Columnar transposition should not be used more than" << endl;
+        cout << "\t\t          two times in an encryption sequence and do not use " << endl;
+        cout << "\t\t          the same key for subsequent encryptions" << endl;
         cout << endl;
         color = 0x0a;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
@@ -247,6 +249,7 @@ start:
         for (int i = 0; i < level; i++)
         {
             int temp;
+            cout << ">>> ";
             cin >> temp;
             enc_sequence.push_back(temp);
         }
@@ -302,6 +305,8 @@ start:
         c.write_rsa_encryption_file("sequence_file.txt", sequence);
         color = 0x0a;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cin.get();
+        cin.get();
     }
     else if (choice == 2)
     {
@@ -328,12 +333,15 @@ start:
         cout << "\t\t\t\t\t4. Columnar Transposition Cipher" << endl;
         cout << "\t\t\t\t\t5. Xor Cipher" << endl;
         cout << endl;
+        color = 0x0e;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         cout << "Enter the level of decryption: ";
         cin >> level;
-        cout << "\nEnter " << level << " number(s): " << endl;
+        cout << "\nEnter " << level << " number(s) one by one: " << endl;
         for (int i = 0; i < level; i++)
         {
             int seq_id;
+            cout << ">>> ";
             cin >> seq_id;
             switch (seq_id)
             {
@@ -417,26 +425,30 @@ start:
         }
         color = 0x0a;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cin.get();
+        cin.get();
     }
     else if (choice == 3)
     {
         //Generate Keys and n
-        color = 0x0c;
+        color = 0x0e;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
         int private_key, public_key, n;
         private_key = public_key = n = 0;
         c.genkeys_and_n(public_key, private_key, n);
-        cout << "\t\t\t\t   RSA Key Pairs" << endl;
-        cout << "\t\t\t\t   --- --- -----" << endl;
-        color = 0x01;
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-        cout << "\t\t\t\tPrivate key: "
+        cout << "\t\t\t\t          RSA Key Pairs" << endl;
+        cout << "\t\t\t\t          --- --- -----" << endl;
+        cout << "\t\t\t\t   Private key: "
              << "(" << private_key << ", " << n << ")" << endl;
-        cout << "\t\t\t\tPublic key: "
+        cout << "\t\t\t\t   Public key: "
              << "(" << public_key << ", " << n << ")" << endl;
-        cout << "\t\t\t\tn          : " << n << endl;
+        cout << "\t\t\t\t   n          : " << n << endl;
         color = 0x0a;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+        cout << "\nWrite these down and press Enter to go back... ";
+        cin.get();
+        cin.get();
+        goto start;
     }
     else if (choice == 4)
     {
