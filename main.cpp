@@ -1,3 +1,10 @@
+/* Authors: 
+1. Shivaprasd S
+2. Siddharth
+3. Amrutha
+4. Sangeetha
+*/
+
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
