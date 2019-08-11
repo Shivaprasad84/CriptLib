@@ -1,9 +1,4 @@
-/* Authors: 
-1. Shivaprasd S
-2. Siddharth
-3. Amrutha
-4. Sangeetha
-*/
+/* Author: Shivaprasad S */ 
 
 #include <iostream>
 #include <vector>
